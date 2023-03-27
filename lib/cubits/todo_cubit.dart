@@ -46,11 +46,19 @@ class TodoCubit extends Cubit<TodoState> {
     emit(state.copyWith(showReminder: false));
   }
 
-  Future<int> getCountByCategory({required int cId}) async {
-    var todos = await myTodoRepo.getAllToDos();
+  void changeDoneToTrue({required CachedModel cachedTodo}) {
+    myTodoRepo.changeDoneToTrue(cachedTodo: cachedTodo);
+    getAllTodos();
+  }
 
+  void changeDoneToFalse({required CachedModel cachedTodo}) {
+    myTodoRepo.changeDoneToFalse(cachedTodo: cachedTodo);
+    getAllTodos();
+  }
+
+  int getCountByCategory({required int cId}) {
     var count = 0;
-    for (var todo in todos) {
+    for (var todo in state.toDoModels) {
       if (todo.categoryId == cId) {
         count++;
       }

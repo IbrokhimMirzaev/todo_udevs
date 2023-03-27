@@ -158,13 +158,19 @@ class TaskPage extends StatelessWidget {
                             child: SvgPicture.asset(categories[index].iconUrl)),
                       ),
                       SizedBox(height: 7.h),
-                      Text(categories[index].title,
-                          style: RubikFont.w500.copyWith(
-                              fontSize: 17.sp, color: const Color(0xFF686868))),
+                      Text(categories[index].title, style: RubikFont.w500.copyWith(fontSize: 17.sp, color: const Color(0xFF686868))),
                       SizedBox(height: 15.h),
-                      Text("24 Tasks",
-                          style: RubikFont.w400.copyWith(
-                              fontSize: 10.sp, color: const Color(0xFFA1A1A1))),
+                      BlocBuilder<TodoCubit, TodoState>(
+                        builder: (context, state) {
+                          return Text(
+                            "${context.read<TodoCubit>().getCountByCategory(cId: categories[index].id)} Tasks",
+                            style: RubikFont.w400.copyWith(
+                              fontSize: 10.sp,
+                              color: const Color(0xFFA1A1A1),
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 );

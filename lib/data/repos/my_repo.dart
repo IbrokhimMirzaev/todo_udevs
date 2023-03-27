@@ -43,4 +43,30 @@ class MyTodoRepo {
       whereArgs: [cachedTodo.id],
     );
   }
+
+  Future<void> changeDoneToTrue({required CachedModel cachedTodo}) async {
+    final db = await LocalDb.getInstance.database;
+
+    await db.update(
+      CachedFields.tableName,
+      {
+        CachedFields.isDone: true,
+      },
+      where: '${CachedFields.id} = ?',
+      whereArgs: [cachedTodo.id],
+    );
+  }
+
+  Future<void> changeDoneToFalse({required CachedModel cachedTodo}) async {
+    final db = await LocalDb.getInstance.database;
+
+    await db.update(
+      CachedFields.tableName,
+      {
+        CachedFields.isDone: false,
+      },
+      where: '${CachedFields.id} = ?',
+      whereArgs: [cachedTodo.id],
+    );
+  }
 }

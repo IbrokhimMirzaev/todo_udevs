@@ -31,8 +31,11 @@ class TodoItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 15.w, top: 30.h),
             child: Text(
-              DateTime.now().difference(cachedTodo.dateTime).inDays == 0 ? "Today" : DateFormat.MMMEd().format(cachedTodo.dateTime),
-              style: RubikFont.w500.copyWith(fontSize: 13.sp, color: const Color(0xFF8B87B3)),
+              DateTime.now().difference(cachedTodo.dateTime).inDays == 0
+                  ? "Today"
+                  : DateFormat.MMMEd().format(cachedTodo.dateTime),
+              style: RubikFont.w500
+                  .copyWith(fontSize: 13.sp, color: const Color(0xFF8B87B3)),
             ),
           ),
         Slidable(
@@ -45,7 +48,8 @@ class TodoItem extends StatelessWidget {
                 onTap: () {
                   showModalBottomSheet(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(35.r)),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(35.r)),
                     ),
                     backgroundColor: Colors.transparent,
                     isScrollControlled: true,
@@ -90,57 +94,65 @@ class TodoItem extends StatelessWidget {
               ),
             ],
           ),
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.r),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 2.0,
-                  spreadRadius: 2.0,
-                  color: Colors.black.withOpacity(0.05),
-                  offset: const Offset(0, 2),
-                )
-              ],
-            ),
-            width: double.infinity,
-            height: 60.h,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: context
-                        .read<CategoryRepository>()
-                        .getCategoryColorById(cachedTodo.categoryId),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.r),
-                      bottomLeft: Radius.circular(8.r),
+          child: GestureDetector(
+            onTap: () {
+              if (cachedTodo.isDone) {
+                context.read<TodoCubit>().changeDoneToFalse(cachedTodo: cachedTodo);
+              } else {
+                context.read<TodoCubit>().changeDoneToTrue(cachedTodo: cachedTodo);
+              }
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.r),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 2.0,
+                    spreadRadius: 2.0,
+                    color: Colors.black.withOpacity(0.05),
+                    offset: const Offset(0, 2),
+                  )
+                ],
+              ),
+              width: double.infinity,
+              height: 60.h,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: context.read<CategoryRepository>().getCategoryColorById(cachedTodo.categoryId),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8.r),
+                        bottomLeft: Radius.circular(8.r),
+                      ),
+                    ),
+                    width: 4,
+                    height: double.infinity,
+                  ),
+                  SizedBox(width: 11.w),
+                  cachedTodo.isDone ? SvgPicture.asset(Assets.checked) : SvgPicture.asset(Assets.emptyCircle),
+                  SizedBox(width: 11.w),
+                  Text(DateFormat.Hm().format(cachedTodo.dateTime), style: RubikFont.w400.copyWith(fontSize: 11.sp, color: const Color(0xFFC6C6C8))),
+                  SizedBox(width: 15.w),
+                  Expanded(
+                    child: Text(
+                      cachedTodo.title,
+                      style: RubikFont.w500.copyWith(
+                        decoration: cachedTodo.isDone ? TextDecoration.underline : null,
+                        fontSize: 14.sp,
+                        color: cachedTodo.isDone ? const Color(0xFFD9D9D9) : const Color(0xFF554E8F),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  width: 4,
-                  height: double.infinity,
-                ),
-                SizedBox(width: 11.w),
-                SvgPicture.asset(Assets.emptyCircle),
-                SizedBox(width: 11.w),
-                Text(DateFormat.Hm().format(cachedTodo.dateTime),
-                    style: RubikFont.w400.copyWith(
-                        fontSize: 11.sp, color: const Color(0xFFC6C6C8))),
-                SizedBox(width: 15.w),
-                Expanded(
-                  child: Text(
-                    cachedTodo.title,
-                    style: RubikFont.w500.copyWith(
-                        fontSize: 14.sp, color: const Color(0xFF554E8F)),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                SvgPicture.asset(Assets.smallBell),
-                SizedBox(width: 10.w),
-              ],
+                  SvgPicture.asset(Assets.smallBell),
+                  SizedBox(width: 10.w),
+                ],
+              ),
             ),
           ),
         ),
