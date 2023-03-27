@@ -33,7 +33,6 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
 
   @override
   void initState() {
-    controller = TextEditingController();
     categories = context.read<CategoryRepository>().categories;
 
     if (widget.cachedTodo != null) {
@@ -41,6 +40,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
       pickedDate = widget.cachedTodo!.dateTime;
       controller.text = widget.cachedTodo!.title;
     }
+
     super.initState();
   }
 
@@ -49,7 +49,8 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
     return BlocBuilder<TodoCubit, TodoState>(
       builder: (context, state) {
         return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SizedBox(
             width: 375.w,
             height: MediaQuery.of(context).size.height * 0.5,
@@ -61,7 +62,11 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                   child: Column(
                     children: [
                       SizedBox(height: 60.h),
-                      Center(child: Text("Add new task", style: RubikFont.w500.copyWith(fontSize: 13.sp, color: const Color(0xFF404040)))),
+                      Center(
+                          child: Text("Add new task",
+                              style: RubikFont.w500.copyWith(
+                                  fontSize: 13.sp,
+                                  color: const Color(0xFF404040)))),
                       CustomTextField(controller: controller),
                       SizedBox(height: 22.h),
                       SizedBox(
@@ -73,7 +78,8 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                             categories.length,
                             (index) => CategItem(
                               category: categories[index],
-                              isSelected: categories[index].id == selectedCategId,
+                              isSelected:
+                                  categories[index].id == selectedCategId,
                               onPressed: () => setState(() {
                                 selectedCategId = categories[index].id;
                               }),
@@ -84,7 +90,8 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                       SizedBox(height: 22.h),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 21.5.w),
-                        child: Container(color: ColorConst.cCFCFCF, height: 1.h),
+                        child:
+                            Container(color: ColorConst.cCFCFCF, height: 1.h),
                       ),
                       SizedBox(height: 15.h),
                       Padding(
@@ -93,9 +100,11 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                           children: [
                             TextButton(
                               onPressed: () async {
-                                DateTime? dateTime = await Utils.getDate(context: context);
+                                DateTime? dateTime =
+                                    await Utils.getDate(context: context);
                                 if (dateTime == null) {
-                                  Utils.getMyToast(message: 'Please choose the exact date');
+                                  Utils.getMyToast(
+                                      message: 'Please choose the exact date');
                                 } else {
                                   setState(() {
                                     pickedDate = dateTime;
@@ -121,15 +130,16 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
-                          if (pickedDate != null) {
-                            if (selectedCategId != -1) {
-                              if (controller.text.isNotEmpty) {
-                                var todo = CachedModel(
-                                  categoryId: selectedCategId,
-                                  title: controller.text,
-                                  dateTime: pickedDate!,
-                                  isDone: false,
-                                );
+                          var todo = CachedModel(
+                            categoryId: selectedCategId,
+                            title: controller.text,
+                            dateTime: pickedDate!,
+                            isDone: false,
+                          );
+
+                          if (todo.dateTime.toString().isNotEmpty) {
+                            if (todo.categoryId != -1) {
+                              if (todo.title.isNotEmpty) {
                                 if (widget.cachedTodo == null) {
                                   context.read<TodoCubit>().addTodo(todo: todo);
                                 }
@@ -137,16 +147,13 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                                   context.read<TodoCubit>().editTodo(newTodo: todo);
                                 }
                                 Navigator.pop(context);
-                              }
-                              else {
+                              } else {
                                 Utils.getMyToast(message: "Type the title of your todo!");
                               }
-                            }
-                            else {
+                            } else {
                               Utils.getMyToast(message: "Select one category!");
                             }
-                          }
-                          else {
+                          } else {
                             Utils.getMyToast(message: "Select date!");
                           }
                         },
@@ -169,7 +176,9 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                           ),
                           child: Center(
                             child: Text(
-                              widget.cachedTodo != null ? "Edit task" : "Add task",
+                              widget.cachedTodo != null
+                                  ? "Edit task"
+                                  : "Add task",
                               style: RubikFont.w500.copyWith(
                                 fontSize: 18.sp,
                                 color: ColorConst.white,

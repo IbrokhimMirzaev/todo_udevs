@@ -25,21 +25,20 @@ class MyTodoRepo {
     }
   }
 
-  Future<int> updateCachedTodo({
+  Future<void> updateCachedTodo({
     required CachedModel cachedTodo,
   }) async {
     Map<String, Object?> toDo = cachedTodo.toJson();
-    Map<String, dynamic> row = {
-      CachedFields.isDone: toDo[CachedFields.isDone],
-      CachedFields.title: toDo[CachedFields.title],
-      CachedFields.categoryId: toDo[CachedFields.categoryId],
-      CachedFields.dateTime: toDo[CachedFields.dateTime],
-    };
 
     final db = await LocalDb.getInstance.database;
-    return db.update(
+    await db.update(
       CachedFields.tableName,
-      row,
+      {
+        CachedFields.isDone: toDo[CachedFields.isDone],
+        CachedFields.title: toDo[CachedFields.title],
+        CachedFields.categoryId: toDo[CachedFields.categoryId],
+        CachedFields.dateTime: toDo[CachedFields.dateTime],
+      },
       where: '${CachedFields.id} = ?',
       whereArgs: [cachedTodo.id],
     );

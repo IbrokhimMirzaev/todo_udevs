@@ -78,30 +78,20 @@ class HomePage extends StatelessWidget {
                                                       .spaceBetween,
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Text("Today's Reminder",
-                                                        style: RubikFont.w500
-                                                            .copyWith(
-                                                                fontSize: 20.sp,
-                                                                color: ColorConst
-                                                                    .white)),
+                                                    Text("Today's Reminder", style: RubikFont.w500.copyWith(fontSize: 20.sp, color: ColorConst.white)),
                                                     Text(
                                                       "Meeting with client",
-                                                      style: RubikFont.w400
-                                                          .copyWith(
+                                                      style: RubikFont.w400.copyWith(
                                                         fontSize: 11.sp,
                                                         color: ColorConst.white,
                                                       ),
                                                     ),
                                                     Text(
                                                       "13:00 PM",
-                                                      style: RubikFont.w400
-                                                          .copyWith(
+                                                      style: RubikFont.w400.copyWith(
                                                         fontSize: 11.sp,
                                                         color: ColorConst.white,
                                                       ),
@@ -117,12 +107,9 @@ class HomePage extends StatelessWidget {
                                             right: 11.w,
                                             child: InkWell(
                                               onTap: () {
-                                                context
-                                                    .read<TodoCubit>()
-                                                    .changeToFalseRemainder();
+                                                context.read<TodoCubit>().changeToFalseRemainder();
                                               },
-                                              child: SvgPicture.asset(
-                                                  Assets.close),
+                                              child: SvgPicture.asset(Assets.close),
                                             ),
                                           )
                                         ],

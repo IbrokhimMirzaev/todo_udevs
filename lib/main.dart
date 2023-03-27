@@ -13,8 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await LocalData.getInstance();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   LocalNotificationService.localNotificationService.init();
 
   runApp(
@@ -23,6 +22,7 @@ void main() async {
       child: BlocProvider(
         create: (context) => TodoCubit(
           myTodoRepo: MyTodoRepo(),
+          categRepo: CategoryRepository(),
         ),
         child: const MyApp(),
       ),

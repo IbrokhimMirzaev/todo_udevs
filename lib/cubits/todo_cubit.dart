@@ -2,12 +2,13 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:todo_udevs/data/enum/status.dart';
 import 'package:todo_udevs/data/models/cached_model.dart';
+import 'package:todo_udevs/data/repos/category_repo.dart';
 import 'package:todo_udevs/data/repos/my_repo.dart';
 
 part 'todo_state.dart';
 
 class TodoCubit extends Cubit<TodoState> {
-  TodoCubit({required this.myTodoRepo})
+  TodoCubit({required this.myTodoRepo, required this.categRepo})
       : super(
           const TodoState(
             status: Status.PURE,
@@ -18,6 +19,7 @@ class TodoCubit extends Cubit<TodoState> {
   }
 
   final MyTodoRepo myTodoRepo;
+  final CategoryRepository categRepo;
 
   Future<void> addTodo({required CachedModel todo}) async {
     await myTodoRepo.addCacheToDo(todo);
@@ -42,5 +44,18 @@ class TodoCubit extends Cubit<TodoState> {
 
   void changeToFalseRemainder() {
     emit(state.copyWith(showReminder: false));
+  }
+
+  Future<int> getCountByCategory({required int cId}) async {
+    var todos = await myTodoRepo.getAllToDos();
+
+    var count = 0;
+    for (var todo in todos) {
+      if (todo.categoryId == cId) {
+        count++;
+      }
+    }
+
+    return count;
   }
 }
