@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_udevs/cubits/todo_cubit.dart';
 import 'package:todo_udevs/data/enum/status.dart';
+import 'package:todo_udevs/data/repos/category_repo.dart';
+import 'package:todo_udevs/ui/widgets/todo_item.dart';
 import 'package:todo_udevs/utils/assets.dart';
 import 'package:todo_udevs/utils/constants/color_const.dart';
 import 'package:todo_udevs/utils/constants/rubik_font.dart';
@@ -113,7 +116,6 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          SliverToBoxAdapter(child: SizedBox(height: 30.h)),
           BlocBuilder<TodoCubit, TodoState>(
             builder: (context, state) {
               var status = state.status;
@@ -122,76 +124,31 @@ class HomePage extends StatelessWidget {
                 if (state.toDoModels.isNotEmpty) {
                   return SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: 15.w, vertical: 10.h),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8.r),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 2.0,
-                              spreadRadius: 2.0,
-                              color: Colors.black.withOpacity(0.05),
-                              offset: const Offset(0, 2),
-                            )
-                          ],
-                        ),
-                        width: double.infinity,
-                        height: 60.h,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFFFD506),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8.r),
-                                  bottomLeft: Radius.circular(8.r),
-                                ),
-                              ),
-                              width: 4,
-                              height: double.infinity,
-                            ),
-                            SizedBox(width: 11.w),
-                            SvgPicture.asset(Assets.emptyCircle),
-                            SizedBox(width: 11.w),
-                            Text("08.00 AM",
-                                style: RubikFont.w400.copyWith(
-                                    fontSize: 11.sp,
-                                    color: const Color(0xFFC6C6C8))),
-                            SizedBox(width: 15.w),
-                            Expanded(
-                              child: Text(
-                                "Go jogging with Christin",
-                                style: RubikFont.w500.copyWith(
-                                    fontSize: 14.sp,
-                                    color: const Color(0xFF554E8F)),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            SvgPicture.asset(Assets.smallBell),
-                            SizedBox(width: 10.w),
-                          ],
-                        ),
+                      return TodoItem(
+                          cachedTodo: state.toDoModels[index],
+                          myDay: index == 0 || state.toDoModels[index].dateTime.difference(state.toDoModels[index - 1].dateTime).inDays > 0,
                       );
-                    }, childCount: 30),
+                    }, childCount: state.toDoModels.length),
                   );
                 } else {
                   return SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        Image.asset(Assets.empty),
-                        SizedBox(height: 70.h),
-                        Text(
-                          "No tasks",
-                          style: RubikFont.w500.copyWith(
-                            fontSize: 22.sp,
-                            color: const Color(0xFF554E8F),
-                          ),
-                        )
-                      ],
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(Assets.empty, width: 115.w),
+                          SizedBox(height: 70.h),
+                          Text(
+                            "No tasks",
+                            style: RubikFont.w500.copyWith(
+                              fontSize: 22.sp,
+                              color: const Color(0xFF554E8F),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 }

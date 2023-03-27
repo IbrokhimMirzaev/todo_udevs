@@ -26,6 +26,7 @@ dependencies:
 
   flutter_local_notifications: ^13.0.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
