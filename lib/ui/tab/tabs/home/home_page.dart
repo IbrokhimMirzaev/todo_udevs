@@ -71,25 +71,14 @@ class HomePage extends StatelessWidget {
                                             ),
                                             height: 106.h,
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Text("Today's Reminder",
-                                                        style: RubikFont.w500
-                                                            .copyWith(
-                                                                fontSize: 20.sp,
-                                                                color: ColorConst
-                                                                    .white)),
-                                                    Text(
-                                                      "Meeting with client",
+                                                    Text("Today's Reminder", style: RubikFont.w500.copyWith(fontSize: 20.sp, color: ColorConst.white)),
+                                                    Text("Meeting with client",
                                                       style: RubikFont.w400
                                                           .copyWith(
                                                         fontSize: 11.sp,
