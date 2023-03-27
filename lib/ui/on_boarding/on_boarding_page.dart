@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo_udevs/data/local_data/local_data.dart';
 import 'package:todo_udevs/utils/assets.dart';
 import 'package:todo_udevs/utils/constants/color_const.dart';
 import 'package:todo_udevs/utils/constants/route_names.dart';
 import 'package:todo_udevs/utils/constants/rubik_font.dart';
 
-class OnBoardingPage extends StatelessWidget {
+class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({Key? key}) : super(key: key);
+
+  @override
+  State<OnBoardingPage> createState() => _OnBoardingPageState();
+}
+
+class _OnBoardingPageState extends State<OnBoardingPage> {
+  @override
+  void initState() {
+    LocalData.putBool(key: "isOnBoarding", value: true);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
