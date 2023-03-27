@@ -1,6 +1,7 @@
 class Assets {
   // .jpg || .png (images)
   static const String onBoardingImg = 'assets/images/on_boarding.png';
+  static const String empty = 'assets/images/empty.png';
 
   // .svg (icons)
   static const String home = 'assets/icons/home.svg';
