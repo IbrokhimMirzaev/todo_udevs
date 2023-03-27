@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           onGenerateRoute: AppRouter.onGenerateRoute,
           initialRoute: (LocalData.getBool(key: "isOnBoarding") == true) ? "/" : "/on_boarding",
-
         );
       },
     );
