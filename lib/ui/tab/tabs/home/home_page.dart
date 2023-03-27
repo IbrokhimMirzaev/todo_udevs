@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:todo_udevs/cubits/todo_cubit.dart';
 import 'package:todo_udevs/data/enum/status.dart';
-import 'package:todo_udevs/data/repos/category_repo.dart';
 import 'package:todo_udevs/ui/widgets/todo_item.dart';
 import 'package:todo_udevs/utils/assets.dart';
 import 'package:todo_udevs/utils/constants/color_const.dart';
@@ -19,102 +17,125 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            expandedHeight: 204.h,
-            pinned: true,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          BlocBuilder<TodoCubit, TodoState>(
+            builder: (context, state) {
+              return SliverAppBar(
+                automaticallyImplyLeading: false,
+                expandedHeight: state.showReminder ? 204.h : 0.h,
+                pinned: true,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Hello Brenda",
-                        style: RubikFont.w400
-                            .copyWith(fontSize: 18.sp, color: Colors.white)),
-                    Text("Today you have 9 tasks",
-                        style: RubikFont.w400
-                            .copyWith(fontSize: 18.sp, color: Colors.white)),
-                  ],
-                ),
-                const CircleAvatar(backgroundColor: Colors.white)
-              ],
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: ColorConst.myBlueGradient,
-                        end: Alignment.topLeft,
-                        begin: Alignment.bottomRight,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 13.h,
-                    left: 18.w,
-                    right: 18.w,
-                    child: Column(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 18.h),
-                        Stack(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.5),
-                                borderRadius: BorderRadius.circular(5.r),
-                              ),
-                              height: 106.h,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Today's Reminder",
-                                          style: RubikFont.w500.copyWith(
-                                              fontSize: 20.sp,
-                                              color: ColorConst.white)),
-                                      Text(
-                                        "Meeting with client",
-                                        style: RubikFont.w400.copyWith(
-                                          fontSize: 11.sp,
-                                          color: ColorConst.white,
-                                        ),
-                                      ),
-                                      Text(
-                                        "13:00 PM",
-                                        style: RubikFont.w400.copyWith(
-                                          fontSize: 11.sp,
-                                          color: ColorConst.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SvgPicture.asset(Assets.bell)
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                              top: 9.h,
-                              right: 11.w,
-                              child: SvgPicture.asset(Assets.close),
-                            )
-                          ],
+                        Text("Hello Brenda", style: RubikFont.w400.copyWith(fontSize: 18.sp, color: Colors.white)),
+                        Text(
+                          "Today you have ${state.toDoModels.length} tasks",
+                          style: RubikFont.w400.copyWith(fontSize: 18.sp, color: Colors.white),
                         ),
                       ],
                     ),
-                  )
-                ],
-              ),
-            ),
+                    const CircleAvatar(backgroundColor: Colors.white)
+                  ],
+                ),
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: ColorConst.myBlueGradient,
+                            end: Alignment.topLeft,
+                            begin: Alignment.bottomRight,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 13.h,
+                        left: 18.w,
+                        right: 18.w,
+                        child: BlocBuilder<TodoCubit, TodoState>(
+                          builder: (context, state) {
+                            return Column(
+                              children: [
+                                SizedBox(height: 18.h),
+                                state.showReminder == true
+                                    ? Stack(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(16),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white.withOpacity(0.5),
+                                              borderRadius: BorderRadius.circular(5.r),
+                                            ),
+                                            height: 106.h,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text("Today's Reminder",
+                                                        style: RubikFont.w500
+                                                            .copyWith(
+                                                                fontSize: 20.sp,
+                                                                color: ColorConst
+                                                                    .white)),
+                                                    Text(
+                                                      "Meeting with client",
+                                                      style: RubikFont.w400
+                                                          .copyWith(
+                                                        fontSize: 11.sp,
+                                                        color: ColorConst.white,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "13:00 PM",
+                                                      style: RubikFont.w400
+                                                          .copyWith(
+                                                        fontSize: 11.sp,
+                                                        color: ColorConst.white,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SvgPicture.asset(Assets.bell)
+                                              ],
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top: 9.h,
+                                            right: 11.w,
+                                            child: InkWell(
+                                              onTap: () {
+                                                context
+                                                    .read<TodoCubit>()
+                                                    .changeToFalseRemainder();
+                                              },
+                                              child: SvgPicture.asset(
+                                                  Assets.close),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    : SizedBox(),
+                              ],
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
           BlocBuilder<TodoCubit, TodoState>(
             builder: (context, state) {
@@ -125,8 +146,13 @@ class HomePage extends StatelessWidget {
                   return SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
                       return TodoItem(
-                          cachedTodo: state.toDoModels[index],
-                          myDay: index == 0 || state.toDoModels[index].dateTime.difference(state.toDoModels[index - 1].dateTime).inDays > 0,
+                        cachedTodo: state.toDoModels[index],
+                        myDay: index == 0 ||
+                            state.toDoModels[index].dateTime
+                                    .difference(
+                                        state.toDoModels[index - 1].dateTime)
+                                    .inDays >
+                                0,
                       );
                     }, childCount: state.toDoModels.length),
                   );
@@ -159,7 +185,8 @@ class HomePage extends StatelessWidget {
                     child: Center(child: CircularProgressIndicator.adaptive()));
               }
 
-              return const SliverToBoxAdapter(child: Text("Something went wrong"));
+              return const SliverToBoxAdapter(
+                  child: Text("Something went wrong"));
             },
           )
         ],

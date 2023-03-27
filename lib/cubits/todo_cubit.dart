@@ -20,7 +20,17 @@ class TodoCubit extends Cubit<TodoState> {
   final MyTodoRepo myTodoRepo;
 
   Future<void> addTodo({required CachedModel todo}) async {
-    myTodoRepo.addCacheToDo(todo);
+    await myTodoRepo.addCacheToDo(todo);
+    getAllTodos();
+  }
+
+  Future<void> editTodo({required CachedModel newTodo}) async {
+    await myTodoRepo.updateCachedTodo(cachedTodo: newTodo);
+    getAllTodos();
+  }
+
+  Future<void> deleteTodo({required int id}) async {
+    await myTodoRepo.deleteCachedTodoById(id);
     getAllTodos();
   }
 
@@ -28,5 +38,9 @@ class TodoCubit extends Cubit<TodoState> {
     emit(state.copyWith(status: Status.LOADING));
     var todos = await myTodoRepo.getAllToDos();
     emit(state.copyWith(status: Status.SUCCESS, toDoModels: todos));
+  }
+
+  void changeToFalseRemainder() {
+    emit(state.copyWith(showReminder: false));
   }
 }

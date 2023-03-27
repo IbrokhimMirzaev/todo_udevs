@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_udevs/cubits/todo_cubit.dart';
 import 'package:todo_udevs/data/models/cached_model.dart';
 import 'package:todo_udevs/data/repos/category_repo.dart';
+import 'package:todo_udevs/ui/widgets/my_modal_bottom_sheet.dart';
 import 'package:todo_udevs/utils/constants/rubik_font.dart';
 
 import '../../utils/assets.dart';
@@ -41,7 +43,15 @@ class TodoItem extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-
+                  showModalBottomSheet(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(35.r)),
+                    ),
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (_) => MyModalBottomSheet(cachedTodo: cachedTodo),
+                  );
                 },
                 child: Container(
                   height: 35.w,
@@ -61,7 +71,7 @@ class TodoItem extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-
+                  context.read<TodoCubit>().deleteTodo(id: cachedTodo.id!);
                 },
                 child: Container(
                   height: 35.w,

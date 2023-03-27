@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:todo_udevs/cubits/todo_cubit.dart';
 import 'package:todo_udevs/data/models/category_model.dart';
 import 'package:todo_udevs/data/repos/category_repo.dart';
 import 'package:todo_udevs/utils/assets.dart';
@@ -13,7 +14,8 @@ class TaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<CategoryModel> categories = context.read<CategoryRepository>().categories;
+    List<CategoryModel> categories =
+        context.read<CategoryRepository>().categories;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -27,10 +29,17 @@ class TaskPage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Hello Brenda", style: RubikFont.w400.copyWith(fontSize: 18.sp, color: Colors.white)),
-                    Text("Today you have 9 tasks",
+                    Text("Hello Brenda",
                         style: RubikFont.w400
                             .copyWith(fontSize: 18.sp, color: Colors.white)),
+                    BlocBuilder<TodoCubit, TodoState>(
+                      builder: (context, state) {
+                        return Text(
+                            "Today you have ${state.toDoModels.length} tasks",
+                            style: RubikFont.w400.copyWith(
+                                fontSize: 18.sp, color: Colors.white));
+                      },
+                    ),
                   ],
                 ),
                 const CircleAvatar(backgroundColor: Colors.white)
@@ -125,17 +134,16 @@ class TaskPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFBBBBBB).withOpacity(0.5),
-                        blurRadius: 2,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 3),
-                      )
-                    ]
-                  ),
+                      borderRadius: BorderRadius.circular(8.r),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFBBBBBB).withOpacity(0.5),
+                          blurRadius: 2,
+                          spreadRadius: 2,
+                          offset: const Offset(0, 3),
+                        )
+                      ]),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -146,12 +154,17 @@ class TaskPage extends StatelessWidget {
                           shape: BoxShape.circle,
                           color: categories[index].gColor,
                         ),
-                        child: Center(child: SvgPicture.asset(categories[index].iconUrl)),
+                        child: Center(
+                            child: SvgPicture.asset(categories[index].iconUrl)),
                       ),
                       SizedBox(height: 7.h),
-                      Text(categories[index].title, style: RubikFont.w500.copyWith(fontSize: 17.sp, color: const Color(0xFF686868))),
+                      Text(categories[index].title,
+                          style: RubikFont.w500.copyWith(
+                              fontSize: 17.sp, color: const Color(0xFF686868))),
                       SizedBox(height: 15.h),
-                      Text("24 Tasks", style: RubikFont.w400.copyWith(fontSize: 10.sp, color: const Color(0xFFA1A1A1))),
+                      Text("24 Tasks",
+                          style: RubikFont.w400.copyWith(
+                              fontSize: 10.sp, color: const Color(0xFFA1A1A1))),
                     ],
                   ),
                 );

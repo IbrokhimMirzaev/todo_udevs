@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todo_udevs/cubits/todo_cubit.dart';
-import 'package:todo_udevs/data/enum/status.dart';
 import 'package:todo_udevs/data/models/cached_model.dart';
 import 'package:todo_udevs/data/models/category_model.dart';
 import 'package:todo_udevs/data/repos/category_repo.dart';
@@ -18,7 +17,9 @@ import 'package:todo_udevs/utils/constants/rubik_font.dart';
 import 'package:todo_udevs/utils/utils.dart';
 
 class MyModalBottomSheet extends StatefulWidget {
-  const MyModalBottomSheet({Key? key}) : super(key: key);
+  MyModalBottomSheet({Key? key, this.cachedTodo}) : super(key: key);
+
+  CachedModel? cachedTodo;
 
   @override
   State<MyModalBottomSheet> createState() => _MyModalBottomSheetState();
@@ -34,6 +35,12 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
   void initState() {
     controller = TextEditingController();
     categories = context.read<CategoryRepository>().categories;
+
+    if (widget.cachedTodo != null) {
+      selectedCategId = widget.cachedTodo!.categoryId;
+      pickedDate = widget.cachedTodo!.dateTime;
+      controller.text = widget.cachedTodo!.title;
+    }
     super.initState();
   }
 
@@ -42,8 +49,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
     return BlocBuilder<TodoCubit, TodoState>(
       builder: (context, state) {
         return Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SizedBox(
             width: 375.w,
             height: MediaQuery.of(context).size.height * 0.5,
@@ -55,11 +61,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                   child: Column(
                     children: [
                       SizedBox(height: 60.h),
-                      Center(
-                          child: Text("Add new task",
-                              style: RubikFont.w500.copyWith(
-                                  fontSize: 13.sp,
-                                  color: const Color(0xFF404040)))),
+                      Center(child: Text("Add new task", style: RubikFont.w500.copyWith(fontSize: 13.sp, color: const Color(0xFF404040)))),
                       CustomTextField(controller: controller),
                       SizedBox(height: 22.h),
                       SizedBox(
@@ -128,7 +130,12 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                                   dateTime: pickedDate!,
                                   isDone: false,
                                 );
-                                context.read<TodoCubit>().addTodo(todo: todo);
+                                if (widget.cachedTodo == null) {
+                                  context.read<TodoCubit>().addTodo(todo: todo);
+                                }
+                                else {
+                                  context.read<TodoCubit>().editTodo(newTodo: todo);
+                                }
                                 Navigator.pop(context);
                               }
                               else {
@@ -162,7 +169,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                           ),
                           child: Center(
                             child: Text(
-                              "Add task",
+                              widget.cachedTodo != null ? "Edit task" : "Add task",
                               style: RubikFont.w500.copyWith(
                                 fontSize: 18.sp,
                                 color: ColorConst.white,
