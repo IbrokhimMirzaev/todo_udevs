@@ -49,8 +49,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
     return BlocBuilder<TodoCubit, TodoState>(
       builder: (context, state) {
         return Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SizedBox(
             width: 375.w,
             height: MediaQuery.of(context).size.height * 0.5,
