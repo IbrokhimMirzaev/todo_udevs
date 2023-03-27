@@ -164,16 +164,7 @@ class HomePage extends StatelessWidget {
                 }
               }
 
-              if (status == Status.LOADING) {
-                return const SliverToBoxAdapter(
-                  child: Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  ),
-                );
-              }
-
-              return const SliverToBoxAdapter(
-                  child: Text("Something went wrong"));
+              return const SliverToBoxAdapter();
             },
           )
         ],
