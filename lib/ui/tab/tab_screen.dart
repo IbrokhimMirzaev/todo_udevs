@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:todo_udevs/data/models/category_model.dart';
+import 'package:todo_udevs/data/repos/category_repo.dart';
 import 'package:todo_udevs/ui/tab/tabs/home/home_page.dart';
 import 'package:todo_udevs/ui/tab/tabs/task/task_page.dart';
+import 'package:todo_udevs/ui/widgets/category_list_item.dart';
+import 'package:todo_udevs/ui/widgets/custom_text_field.dart';
+import 'package:todo_udevs/ui/widgets/my_modal_bottom_sheet.dart';
+import 'package:todo_udevs/ui/widgets/my_paint.dart';
 import 'package:todo_udevs/utils/assets.dart';
 import 'package:todo_udevs/utils/constants/color_const.dart';
 import 'package:todo_udevs/utils/constants/rubik_font.dart';
@@ -43,52 +50,10 @@ class _TabScreenState extends State<TabScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(35.r)),
             ),
+            backgroundColor: Colors.transparent,
             isScrollControlled: true,
-            isDismissible: false,
             context: context,
-            builder: (_) {
-              return Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    height: MediaQuery.of(context).size.height * 0.75,
-                    child: Column(
-                      children: [
-                        SizedBox(height: 40.h),
-                        Center(child: Text("Add new task", style: RubikFont.w500.copyWith(fontSize: 13.sp, color: const Color(0xFF404040))))
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: -20,
-                    left: 0,
-                    right: 0,
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.transparent,
-                      elevation: 10.0,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        width: 53.h,
-                        height: 53.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(colors: ColorConst.pinkGr),
-                        ),
-                        child: Center(
-                          child: Transform.rotate(
-                            angle: -40,
-                            child: SvgPicture.asset(Assets.add),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              );
-            },
+            builder: (_) => MyModalBottomSheet(),
           );
         },
       ),

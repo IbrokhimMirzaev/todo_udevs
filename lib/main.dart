@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo_udevs/data/repos/category_repo.dart';
 import 'package:todo_udevs/router/router.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    RepositoryProvider(
+      create: (context) => CategoryRepository(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

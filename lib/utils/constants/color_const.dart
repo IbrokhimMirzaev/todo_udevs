@@ -7,6 +7,7 @@ class ColorConst {
   static Color passiveTabColor = const Color(0xFFBEBEBE);
   static Color C_554E8F = const Color(0xFF554E8F);
   static Color C_FCFCFC = const Color(0xFFFCFCFC);
+  static Color cCFCFCF = const Color(0xFFCFCFCF);
 
   // gradient
   static List<Color> greenGr = [
