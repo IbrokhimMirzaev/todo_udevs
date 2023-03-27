@@ -38,7 +38,59 @@ class _TabScreenState extends State<TabScreen> {
           ),
           child: Center(child: SvgPicture.asset(Assets.add)),
         ),
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(35.r)),
+            ),
+            isScrollControlled: true,
+            isDismissible: false,
+            context: context,
+            builder: (_) {
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    height: MediaQuery.of(context).size.height * 0.75,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 40.h),
+                        Center(child: Text("Add new task", style: RubikFont.w500.copyWith(fontSize: 13.sp, color: const Color(0xFF404040))))
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: -20,
+                    left: 0,
+                    right: 0,
+                    child: FloatingActionButton(
+                      backgroundColor: Colors.transparent,
+                      elevation: 10.0,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 53.h,
+                        height: 53.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(colors: ColorConst.pinkGr),
+                        ),
+                        child: Center(
+                          child: Transform.rotate(
+                            angle: -40,
+                            child: SvgPicture.asset(Assets.add),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
+          );
+        },
       ),
       resizeToAvoidBottomInset: false,
       body: _screens[_selectedIndex],
@@ -84,7 +136,8 @@ BottomNavigationBarItem bottomNavItem({
       child: SvgPicture.asset(
         iconPath,
         height: 28.h,
-        color: isSelected ? ColorConst.activeTabColor : ColorConst.passiveTabColor,
+        color:
+            isSelected ? ColorConst.activeTabColor : ColorConst.passiveTabColor,
       ),
     ),
     label: label,
