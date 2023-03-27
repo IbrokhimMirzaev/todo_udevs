@@ -66,19 +66,32 @@ class HomePage extends StatelessWidget {
                                           Container(
                                             padding: const EdgeInsets.all(16),
                                             decoration: BoxDecoration(
-                                              color: Colors.white.withOpacity(0.5),
-                                              borderRadius: BorderRadius.circular(5.r),
+                                              color:
+                                                  Colors.white.withOpacity(0.5),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.r),
                                             ),
                                             height: 106.h,
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    Text("Today's Reminder", style: RubikFont.w500.copyWith(fontSize: 20.sp, color: ColorConst.white)),
-                                                    Text("Meeting with client",
+                                                    Text("Today's Reminder",
+                                                        style: RubikFont.w500
+                                                            .copyWith(
+                                                                fontSize: 20.sp,
+                                                                color: ColorConst
+                                                                    .white)),
+                                                    Text(
+                                                      "Meeting with client",
                                                       style: RubikFont.w400
                                                           .copyWith(
                                                         fontSize: 11.sp,
@@ -136,12 +149,7 @@ class HomePage extends StatelessWidget {
                     delegate: SliverChildBuilderDelegate((context, index) {
                       return TodoItem(
                         cachedTodo: state.toDoModels[index],
-                        myDay: index == 0 ||
-                            state.toDoModels[index].dateTime
-                                    .difference(
-                                        state.toDoModels[index - 1].dateTime)
-                                    .inDays >
-                                0,
+                        myDay: index == 0 || state.toDoModels[index].dateTime.difference(state.toDoModels[index - 1].dateTime).inDays > 0,
                       );
                     }, childCount: state.toDoModels.length),
                   );
@@ -171,7 +179,10 @@ class HomePage extends StatelessWidget {
 
               if (status == Status.LOADING) {
                 return const SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator.adaptive()));
+                  child: Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+                );
               }
 
               return const SliverToBoxAdapter(
