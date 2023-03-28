@@ -36,6 +36,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
     categories = context.read<CategoryRepository>().categories;
 
     if (widget.cachedTodo != null) {
+      print("KIRDI");
       selectedCategId = widget.cachedTodo!.categoryId;
       pickedDate = widget.cachedTodo!.dateTime;
       controller.text = widget.cachedTodo!.title;
@@ -61,11 +62,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                   child: Column(
                     children: [
                       SizedBox(height: 60.h),
-                      Center(
-                          child: Text("Add new task",
-                              style: RubikFont.w500.copyWith(
-                                  fontSize: 13.sp,
-                                  color: const Color(0xFF404040)))),
+                      Center(child: Text("Add new task", style: RubikFont.w500.copyWith(fontSize: 13.sp, color: const Color(0xFF404040)))),
                       CustomTextField(controller: controller),
                       SizedBox(height: 22.h),
                       SizedBox(
@@ -77,8 +74,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                             categories.length,
                             (index) => CategItem(
                               category: categories[index],
-                              isSelected:
-                                  categories[index].id == selectedCategId,
+                              isSelected: categories[index].id == selectedCategId,
                               onPressed: () => setState(() {
                                 selectedCategId = categories[index].id;
                               }),
@@ -89,8 +85,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                       SizedBox(height: 22.h),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 21.5.w),
-                        child:
-                            Container(color: ColorConst.cCFCFCF, height: 1.h),
+                        child: Container(color: ColorConst.cCFCFCF, height: 1.h),
                       ),
                       SizedBox(height: 15.h),
                       Padding(
@@ -99,11 +94,9 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                           children: [
                             TextButton(
                               onPressed: () async {
-                                DateTime? dateTime =
-                                    await Utils.getDate(context: context);
+                                DateTime? dateTime = await Utils.getDate(context: context);
                                 if (dateTime == null) {
-                                  Utils.getMyToast(
-                                      message: 'Please choose the exact date');
+                                  Utils.getMyToast(message: 'Please choose the exact date');
                                 } else {
                                   setState(() {
                                     pickedDate = dateTime;
@@ -111,8 +104,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                                 }
                               },
                               style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.r)),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r)),
                                 backgroundColor: Colors.transparent,
                               ),
                               child: Text(
@@ -128,7 +120,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                       ),
                       const Spacer(),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           var todo = CachedModel(
                             categoryId: selectedCategId,
                             title: controller.text,
