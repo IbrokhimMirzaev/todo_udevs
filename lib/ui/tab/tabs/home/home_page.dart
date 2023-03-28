@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
                       children: [
                         Text("Hello Brenda", style: RubikFont.w400.copyWith(fontSize: 18.sp, color: Colors.white)),
                         Text(
-                          "Today you have ${state.toDoModels.length} tasks",
+                          "Today you have ${state.toDoModels.where((element) => !element.isDone).length} tasks",
                           style: RubikFont.w400.copyWith(fontSize: 18.sp, color: Colors.white),
                         ),
                       ],

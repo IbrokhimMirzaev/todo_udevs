@@ -21,9 +21,10 @@ class TodoCubit extends Cubit<TodoState> {
   final MyTodoRepo myTodoRepo;
   final CategoryRepository categRepo;
 
-  Future<void> addTodo({required CachedModel todo}) async {
-    await myTodoRepo.addCacheToDo(todo);
+  Future<CachedModel> addTodo({required CachedModel todo}) async {
+    var newTodo = await myTodoRepo.addCacheToDo(todo);
     getAllTodos();
+    return newTodo;
   }
 
   Future<void> editTodo({required CachedModel newTodo}) async {

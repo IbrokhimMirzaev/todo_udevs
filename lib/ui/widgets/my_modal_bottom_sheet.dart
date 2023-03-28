@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_udevs/cubits/todo_cubit.dart';
 import 'package:todo_udevs/data/models/cached_model.dart';
 import 'package:todo_udevs/data/models/category_model.dart';
@@ -109,7 +110,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                                 backgroundColor: Colors.transparent,
                               ),
                               child: Text(
-                                "Choose date",
+                                pickedDate == null ? "Choose date" : "${DateFormat.MMMd().format(pickedDate!)} ${DateFormat.Hm().format(pickedDate!)}",
                                 style: RubikFont.w400.copyWith(
                                   fontSize: 13.sp,
                                   color: ColorConst.black,
@@ -140,21 +141,21 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                             );
                           }
 
-                          if (todo.dateTime.toString().isNotEmpty) {
+                          if (todo.dateTime.toString().isNotEmpty && todo.dateTime.difference(DateTime.now()).inMinutes > 0) {
                             if (todo.categoryId != -1) {
                               if (todo.title.isNotEmpty) {
                                 if (widget.cachedTodo == null) {
-                                  context.read<TodoCubit>().addTodo(todo: todo);
+                                  todo = await context.read<TodoCubit>().addTodo(todo: todo);
                                 }
                                 else {
                                   context.read<TodoCubit>().editTodo(newTodo: todo);
                                 }
-                                Navigator.pop(context);
 
                                 LocalNotificationService.localNotificationService.scheduleNotification(
                                   cachedTodo: todo,
                                   categoryName: context.read<CategoryRepository>().getCategoryNameById(todo.categoryId),
                                 );
+                                Navigator.pop(context);
                               } else {
                                 Utils.getMyToast(message: "Type the title of your todo!");
                               }
@@ -162,7 +163,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                               Utils.getMyToast(message: "Select one category!");
                             }
                           } else {
-                            Utils.getMyToast(message: "Select date!");
+                            Utils.getMyToast(message: "Select future date!");
                           }
                         },
                         child: Container(

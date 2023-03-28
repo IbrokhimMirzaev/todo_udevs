@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:todo_udevs/cubits/todo_cubit.dart';
 import 'package:todo_udevs/data/models/cached_model.dart';
 import 'package:todo_udevs/data/repos/category_repo.dart';
+import 'package:todo_udevs/data/services/notif/service_notif.dart';
 import 'package:todo_udevs/ui/widgets/my_modal_bottom_sheet.dart';
 import 'package:todo_udevs/utils/constants/rubik_font.dart';
 
@@ -76,6 +77,8 @@ class TodoItem extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   context.read<TodoCubit>().deleteTodo(id: cachedTodo.id!);
+
+                  LocalNotificationService.localNotificationService.cancelNotificationById(cachedTodo.id!);
                 },
                 child: Container(
                   height: 35.w,
@@ -157,6 +160,16 @@ class TodoItem extends StatelessWidget {
                     ),
                     onPressed: () {
                       context.read<TodoCubit>().changeBell(cachedTodo: cachedTodo);
+
+                      if (!cachedTodo.isBell) {
+                        LocalNotificationService.localNotificationService.cancelNotificationById(cachedTodo.id!);
+                      }
+                      else {
+                        LocalNotificationService.localNotificationService.scheduleNotification(
+                          cachedTodo: cachedTodo,
+                          categoryName: context.read<CategoryRepository>().getCategoryNameById(cachedTodo.categoryId),
+                        );
+                      }
                     },
                     child: SvgPicture.asset(Assets.smallBell, color: cachedTodo.isBell ? const Color(0xFFFFDC00) : const Color(0xFFD9D9D9)),
                   ),
