@@ -29,7 +29,6 @@ class MyTodoRepo {
     required CachedModel cachedTodo,
   }) async {
     var toDo = cachedTodo.toJson();
-    print("ID: ${cachedTodo.id}");
 
     final db = await LocalDb.getInstance.database;
     await db.update(

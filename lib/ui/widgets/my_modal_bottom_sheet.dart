@@ -135,6 +135,7 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                               title: controller.text,
                               dateTime: pickedDate!,
                               isDone: false,
+                              isBell: true,
                             );
                           }
 

@@ -27,7 +27,6 @@ class TodoCubit extends Cubit<TodoState> {
   }
 
   Future<void> editTodo({required CachedModel newTodo}) async {
-    print("UPDATE TODO: ${newTodo.toString()}");
     await myTodoRepo.updateCachedTodo(cachedTodo: newTodo);
     getAllTodos();
   }
@@ -60,11 +59,23 @@ class TodoCubit extends Cubit<TodoState> {
   int getCountByCategory({required int cId}) {
     var count = 0;
     for (var todo in state.toDoModels) {
-      if (todo.categoryId == cId) {
+      if (todo.categoryId == cId && !todo.isDone) {
         count++;
       }
     }
 
     return count;
+  }
+
+  CachedModel? getFirstBellTodo() {
+    CachedModel? myBellToDo;
+    for (var todo in state.toDoModels) {
+      if (!todo.isDone && todo.isBell) {
+        myBellToDo = todo;
+        break;
+      }
+    }
+
+    return myBellToDo;
   }
 }

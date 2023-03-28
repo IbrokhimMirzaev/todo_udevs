@@ -5,6 +5,7 @@ class CachedFields {
   static const String title = "title";
   static const String dateTime = "date_time";
   static const String isDone = "is_done";
+  static const String isBell = "is_bell";
 }
 
 class CachedModel {
@@ -13,6 +14,7 @@ class CachedModel {
   String title;
   DateTime dateTime;
   bool isDone;
+  bool isBell;
 
   CachedModel({
     this.id,
@@ -20,6 +22,7 @@ class CachedModel {
     required this.title,
     required this.dateTime,
     required this.isDone,
+    required this.isBell,
   });
 
   static CachedModel fromJson(Map<String, Object?> json) {
@@ -29,6 +32,7 @@ class CachedModel {
       title: json[CachedFields.title] as String,
       dateTime: DateTime.parse(json[CachedFields.dateTime] as String),
       isDone: json[CachedFields.isDone] as int == 1,
+      isBell: json[CachedFields.isBell] as int == 1,
     );
   }
 
@@ -38,6 +42,7 @@ class CachedModel {
     String? title,
     DateTime? dateTime,
     bool? isDone,
+    bool? isBell,
     int? taskPriority,
   }) =>
       CachedModel(
@@ -46,6 +51,7 @@ class CachedModel {
         title: title ?? this.title,
         dateTime: dateTime ?? this.dateTime,
         isDone: isDone ?? this.isDone,
+        isBell: isBell ?? this.isBell,
       );
 
   Map<String, Object?> toJson() {
@@ -55,11 +61,12 @@ class CachedModel {
       CachedFields.title: title,
       CachedFields.dateTime: dateTime.toString(),
       CachedFields.isDone: isDone ? 1 : 0,
+      CachedFields.isBell: isBell ? 1 : 0,
     };
   }
 
   @override
   String toString() {
-    return '$categoryId, $title, $dateTime, $isDone';
+    return '$categoryId, $title, $dateTime, $isDone, isbell = $isBell';
   }
 }

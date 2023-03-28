@@ -18,6 +18,7 @@ class TaskPage extends StatelessWidget {
         context.read<CategoryRepository>().categories;
     return Scaffold(
       body: CustomScrollView(
+        physics: BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             automaticallyImplyLeading: false,

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_udevs/cubits/todo_cubit.dart';
 import 'package:todo_udevs/data/enum/status.dart';
+import 'package:todo_udevs/data/models/cached_model.dart';
 import 'package:todo_udevs/ui/widgets/todo_item.dart';
 import 'package:todo_udevs/utils/assets.dart';
 import 'package:todo_udevs/utils/constants/color_const.dart';
@@ -16,6 +18,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
         slivers: [
           BlocBuilder<TodoCubit, TodoState>(
             builder: (context, state) {
@@ -57,6 +60,7 @@ class HomePage extends StatelessWidget {
                         right: 18.w,
                         child: BlocBuilder<TodoCubit, TodoState>(
                           builder: (context, state) {
+                            CachedModel? myBellTodo = context.read<TodoCubit>().getFirstBellTodo();
                             return Column(
                               children: [
                                 SizedBox(height: 18.h),
@@ -66,16 +70,12 @@ class HomePage extends StatelessWidget {
                                           Container(
                                             padding: const EdgeInsets.all(16),
                                             decoration: BoxDecoration(
-                                              color:
-                                                  Colors.white.withOpacity(0.5),
-                                              borderRadius:
-                                                  BorderRadius.circular(5.r),
+                                              color: Colors.white.withOpacity(0.5),
+                                              borderRadius: BorderRadius.circular(5.r),
                                             ),
                                             height: 106.h,
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,14 +83,14 @@ class HomePage extends StatelessWidget {
                                                   children: [
                                                     Text("Today's Reminder", style: RubikFont.w500.copyWith(fontSize: 20.sp, color: ColorConst.white)),
                                                     Text(
-                                                      "Meeting with client",
+                                                      myBellTodo?.title ?? "There is no task yet",
                                                       style: RubikFont.w400.copyWith(
                                                         fontSize: 11.sp,
                                                         color: ColorConst.white,
                                                       ),
                                                     ),
                                                     Text(
-                                                      "13:00 PM",
+                                                      myBellTodo == null ? "" : DateFormat.Hm().format(myBellTodo.dateTime),
                                                       style: RubikFont.w400.copyWith(
                                                         fontSize: 11.sp,
                                                         color: ColorConst.white,

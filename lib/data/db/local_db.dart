@@ -33,7 +33,8 @@ class LocalDb {
     ${CachedFields.categoryId} $intType,
     ${CachedFields.title} $textType,
     ${CachedFields.dateTime} $textType,
-    ${CachedFields.isDone} $intType
+    ${CachedFields.isDone} $intType,
+    ${CachedFields.isBell} $intType
     )
     ''');
   }
