@@ -69,4 +69,17 @@ class MyTodoRepo {
       whereArgs: [cachedTodo.id],
     );
   }
+
+  Future<void> changeBell({required CachedModel cachedTodo}) async {
+    final db = await LocalDb.getInstance.database;
+
+    await db.update(
+      CachedFields.tableName,
+      {
+        CachedFields.isBell: !cachedTodo.isBell ? 1 : 0,
+      },
+      where: '${CachedFields.id} = ?',
+      whereArgs: [cachedTodo.id],
+    );
+  }
 }

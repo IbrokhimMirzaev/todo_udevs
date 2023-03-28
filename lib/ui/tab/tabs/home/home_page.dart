@@ -105,11 +105,20 @@ class HomePage extends StatelessWidget {
                                           Positioned(
                                             top: 9.h,
                                             right: 11.w,
-                                            child: InkWell(
-                                              onTap: () {
-                                                context.read<TodoCubit>().changeToFalseRemainder();
-                                              },
-                                              child: SvgPicture.asset(Assets.close),
+                                            child: SizedBox(
+                                              width: 35.w,
+                                              height: 35.w,
+                                              child: TextButton(
+                                                style: TextButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(100.r)
+                                                  )
+                                                ),
+                                                onPressed: () {
+                                                  context.read<TodoCubit>().changeToFalseRemainder();
+                                                },
+                                                child: SvgPicture.asset(Assets.close),
+                                              ),
                                             ),
                                           )
                                         ],

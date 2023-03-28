@@ -56,6 +56,11 @@ class TodoCubit extends Cubit<TodoState> {
     getAllTodos();
   }
 
+  void changeBell({required CachedModel cachedTodo}) {
+    myTodoRepo.changeBell(cachedTodo: cachedTodo);
+    getAllTodos();
+  }
+
   int getCountByCategory({required int cId}) {
     var count = 0;
     for (var todo in state.toDoModels) {

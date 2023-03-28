@@ -133,7 +133,9 @@ class TodoItem extends StatelessWidget {
                     height: double.infinity,
                   ),
                   SizedBox(width: 11.w),
-                  cachedTodo.isDone ? SvgPicture.asset(Assets.checked) : SvgPicture.asset(Assets.emptyCircle),
+                  cachedTodo.isDone
+                      ? SvgPicture.asset(Assets.checked)
+                      : SvgPicture.asset(Assets.emptyCircle),
                   SizedBox(width: 11.w),
                   Text(DateFormat.Hm().format(cachedTodo.dateTime), style: RubikFont.w400.copyWith(fontSize: 11.sp, color: const Color(0xFFC6C6C8))),
                   SizedBox(width: 15.w),
@@ -149,7 +151,15 @@ class TodoItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  SvgPicture.asset(Assets.smallBell),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      primary: const Color(0xFFFFDC00),
+                    ),
+                    onPressed: () {
+                      context.read<TodoCubit>().changeBell(cachedTodo: cachedTodo);
+                    },
+                    child: SvgPicture.asset(Assets.smallBell, color: cachedTodo.isBell ? const Color(0xFFFFDC00) : const Color(0xFFD9D9D9)),
+                  ),
                   SizedBox(width: 10.w),
                 ],
               ),
