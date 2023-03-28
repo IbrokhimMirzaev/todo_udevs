@@ -8,6 +8,7 @@ import 'package:todo_udevs/cubits/todo_cubit.dart';
 import 'package:todo_udevs/data/models/cached_model.dart';
 import 'package:todo_udevs/data/models/category_model.dart';
 import 'package:todo_udevs/data/repos/category_repo.dart';
+import 'package:todo_udevs/data/services/notif/service_notif.dart';
 import 'package:todo_udevs/ui/widgets/category_list_item.dart';
 import 'package:todo_udevs/ui/widgets/custom_text_field.dart';
 import 'package:todo_udevs/ui/widgets/my_paint.dart';
@@ -149,6 +150,11 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                                   context.read<TodoCubit>().editTodo(newTodo: todo);
                                 }
                                 Navigator.pop(context);
+
+                                LocalNotificationService.localNotificationService.scheduleNotification(
+                                  cachedTodo: todo,
+                                  categoryName: context.read<CategoryRepository>().getCategoryNameById(todo.categoryId),
+                                );
                               } else {
                                 Utils.getMyToast(message: "Type the title of your todo!");
                               }
