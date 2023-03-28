@@ -121,12 +121,22 @@ class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
                       const Spacer(),
                       GestureDetector(
                         onTap: () async {
-                          var todo = CachedModel(
-                            categoryId: selectedCategId,
-                            title: controller.text,
-                            dateTime: pickedDate!,
-                            isDone: false,
-                          );
+                          CachedModel todo;
+                          if (widget.cachedTodo != null) {
+                            todo = widget.cachedTodo!.copyWith(
+                              categoryId: selectedCategId,
+                              title: controller.text,
+                              dateTime: pickedDate!,
+                            );
+                          }
+                          else {
+                            todo = CachedModel(
+                              categoryId: selectedCategId,
+                              title: controller.text,
+                              dateTime: pickedDate!,
+                              isDone: false,
+                            );
+                          }
 
                           if (todo.dateTime.toString().isNotEmpty) {
                             if (todo.categoryId != -1) {

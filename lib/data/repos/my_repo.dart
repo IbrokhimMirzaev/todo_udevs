@@ -28,7 +28,8 @@ class MyTodoRepo {
   Future<void> updateCachedTodo({
     required CachedModel cachedTodo,
   }) async {
-    Map<String, Object?> toDo = cachedTodo.toJson();
+    var toDo = cachedTodo.toJson();
+    print("ID: ${cachedTodo.id}");
 
     final db = await LocalDb.getInstance.database;
     await db.update(
@@ -50,7 +51,7 @@ class MyTodoRepo {
     await db.update(
       CachedFields.tableName,
       {
-        CachedFields.isDone: true,
+        CachedFields.isDone: 1,
       },
       where: '${CachedFields.id} = ?',
       whereArgs: [cachedTodo.id],
@@ -63,7 +64,7 @@ class MyTodoRepo {
     await db.update(
       CachedFields.tableName,
       {
-        CachedFields.isDone: false,
+        CachedFields.isDone: 0,
       },
       where: '${CachedFields.id} = ?',
       whereArgs: [cachedTodo.id],

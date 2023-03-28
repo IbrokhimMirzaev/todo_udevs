@@ -27,6 +27,7 @@ class TodoCubit extends Cubit<TodoState> {
   }
 
   Future<void> editTodo({required CachedModel newTodo}) async {
+    print("UPDATE TODO: ${newTodo.toString()}");
     await myTodoRepo.updateCachedTodo(cachedTodo: newTodo);
     getAllTodos();
   }

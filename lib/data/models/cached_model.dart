@@ -57,4 +57,9 @@ class CachedModel {
       CachedFields.isDone: isDone ? 1 : 0,
     };
   }
+
+  @override
+  String toString() {
+    return '$categoryId, $title, $dateTime, $isDone';
+  }
 }
