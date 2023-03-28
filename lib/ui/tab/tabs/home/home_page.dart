@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
             builder: (context, state) {
               return SliverAppBar(
                 automaticallyImplyLeading: false,
-                expandedHeight: state.showReminder ? 204.h : 0.h,
+                expandedHeight: state.showReminder && context.read<TodoCubit>().getFirstBellTodo() != null ? 204.h : 0.h,
                 pinned: true,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +64,7 @@ class HomePage extends StatelessWidget {
                             return Column(
                               children: [
                                 SizedBox(height: 18.h),
-                                state.showReminder == true
+                                state.showReminder == true && myBellTodo != null
                                     ? Stack(
                                         children: [
                                           Container(
@@ -83,14 +83,14 @@ class HomePage extends StatelessWidget {
                                                   children: [
                                                     Text("Today's Reminder", style: RubikFont.w500.copyWith(fontSize: 20.sp, color: ColorConst.white)),
                                                     Text(
-                                                      myBellTodo?.title ?? "There is no task yet",
+                                                      myBellTodo.title,
                                                       style: RubikFont.w400.copyWith(
                                                         fontSize: 11.sp,
                                                         color: ColorConst.white,
                                                       ),
                                                     ),
                                                     Text(
-                                                      myBellTodo == null ? "" : DateFormat.Hm().format(myBellTodo.dateTime),
+                                                      DateFormat.Hm().format(myBellTodo.dateTime),
                                                       style: RubikFont.w400.copyWith(
                                                         fontSize: 11.sp,
                                                         color: ColorConst.white,
@@ -123,7 +123,7 @@ class HomePage extends StatelessWidget {
                                           )
                                         ],
                                       )
-                                    : SizedBox(),
+                                    : const SizedBox(),
                               ],
                             );
                           },
@@ -152,7 +152,7 @@ class HomePage extends StatelessWidget {
                 } else {
                   return SliverToBoxAdapter(
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.5,
+                      height: MediaQuery.of(context).size.height * 0.8,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
