@@ -161,14 +161,16 @@ class TodoItem extends StatelessWidget {
                     onPressed: () {
                       context.read<TodoCubit>().changeBell(cachedTodo: cachedTodo);
 
-                      if (!cachedTodo.isBell) {
+                      if (cachedTodo.isBell) {
                         LocalNotificationService.localNotificationService.cancelNotificationById(cachedTodo.id!);
                       }
                       else {
-                        LocalNotificationService.localNotificationService.scheduleNotification(
-                          cachedTodo: cachedTodo,
-                          categoryName: context.read<CategoryRepository>().getCategoryNameById(cachedTodo.categoryId),
-                        );
+                        if (cachedTodo.dateTime.difference(DateTime.now()).inMinutes >= 0) {
+                          LocalNotificationService.localNotificationService.scheduleNotification(
+                            cachedTodo: cachedTodo,
+                            categoryName: context.read<CategoryRepository>().getCategoryNameById(cachedTodo.categoryId),
+                          );
+                        }
                       }
                     },
                     child: SvgPicture.asset(Assets.smallBell, color: cachedTodo.isBell ? const Color(0xFFFFDC00) : const Color(0xFFD9D9D9)),

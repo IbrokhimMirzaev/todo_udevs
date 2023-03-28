@@ -76,7 +76,7 @@ class MyTodoRepo {
     await db.update(
       CachedFields.tableName,
       {
-        CachedFields.isBell: !cachedTodo.isBell ? 1 : 0,
+        CachedFields.isBell: (cachedTodo.isBell) ? 0 : 1,
       },
       where: '${CachedFields.id} = ?',
       whereArgs: [cachedTodo.id],
